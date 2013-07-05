@@ -1,0 +1,47 @@
+{{extend 'layout.html'}}
+
+
+
+{{block center}}
+
+<a id="botao" style="margin-left: 1090px;" class="btn btn-info" data-original-title="Gerar backup">Gráfico</a>
+
+<div id="chart_div" style="margin-left: 400px; display: none;"></div>
+
+{{=grid}}
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+
+  google.load('visualization', '1.0', {'packages':['corechart']});
+  google.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+	$.ajax({
+	method: "get",
+	url: "initial/get_json",
+	dataType: "json",
+	async: false,
+	success: function(lista2){
+  		graf = lista2
+	}
+	});
+
+
+  var data = new google.visualization.DataTable(graf);
+   var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+  chart.draw(data, {width: 480, height: 240});
+
+  }
+
+  $("#botao")
+  .click(function(){
+      $('#chart_div').toggle('slow', function() {
+    // Animation complete.
+  });
+  });
+
+</script>
+
+
+{{end}}

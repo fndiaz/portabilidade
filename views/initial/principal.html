@@ -1,0 +1,30 @@
+{{extend 'layout.html'}}
+
+{{block pesquisa}}
+
+<a id="gerar" class="btn btn-info" rel="popover" data-content="Tipo GLOBAL: todas as ligações discadas para celular Tipo EXTERNA: apenas ligações com consulta ao serviço portabilidade externo"><i class="icon-exclamation-sign icon-white"></i> Info</a></td>
+
+<script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
+<script>
+$(function ()  
+{ $("#gerar").popover({ placement: "bottom", trigger: "hover" });  
+});  
+
+$('#gerar').button();
+
+</script>
+
+
+
+{{end}}
+
+
+{{block coluna2}}
+<div class='well'>
+<h4>Pesquise ligações ou consultas</h4>
+<br>
+{{=form}}
+
+</div>
+
+{{end}}
