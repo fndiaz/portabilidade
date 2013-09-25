@@ -27,20 +27,20 @@ from gluon.tools import Auth
 auth = Auth(db, controller="initial", function="user")
 
 #settings
-auth.settings.remember_me_form = False
-auth.settings.formstyle = "divs"
-auth.settings.login_next = URL('initial', 'principal')
-auth.settings.logout_next = URL('user', 'login?_next=')
-auth.settings.registration_requires_verification = False
-auth.settings.registration_requires_approval = False
+#auth.settings.remember_me_form = False
+#auth.settings.formstyle = "divs"
+#auth.settings.login_next = URL('initial', 'principal')
+#auth.settings.logout_next = URL('user', 'login?_next=')
+#auth.settings.registration_requires_verification = False
+#auth.settings.registration_requires_approval = False
 #auth.settings.formstyle = "divs"
 #auth.settings.actions_disabled = ['register']
 
-auth.messages.logged_in = 'Bem Vindo' 
-auth.messages.logged_out = 'Até logo'
-auth.messages.access_denied = 'Acesso negado! Contate o administrador'
-auth.messages.invalid_email = 'email Inválido'
-auth.messages.invalid_login = 'Login Inválido'
+#auth.messages.logged_in = 'Bem Vindo' 
+#auth.messages.logged_out = 'Até logo'
+#auth.messages.access_denied = 'Acesso negado! Contate o administrador'
+#auth.messages.invalid_email = 'email Inválido'
+#auth.messages.invalid_login = 'Login Inválido'
 
 #mail
 mail = auth.settings.mailer
@@ -62,7 +62,7 @@ def notifica(form):
 #auth.settings.register_onaccept = funcao
 
 #messages
-auth.messages.login_button = "Entrar"
+#auth.messages.login_button = "Entrar"
 
 #fields
 #auth.settings.extra_fields['auth_user'] = [
@@ -75,7 +75,7 @@ auth.messages.login_button = "Entrar"
 #from gluon.contrib.login_methods.rpx_account import use_janrain
 #use_janrain(auth, filename="private/janrain.key")
 
-auth.define_tables(username=False)
+#auth.define_tables(username=False)
 
 #genericas views
 if request.is_local:
