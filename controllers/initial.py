@@ -1,4 +1,5 @@
 # coding=UTF-8
+import os, commands
 
 def principal():
 	response.title = 'busca inteligente'
@@ -7,19 +8,23 @@ def principal():
     	Field("data", "date", 
     	requires=IS_NOT_EMPTY(
     	error_message=T("não pode ser nulo"))),
-    	Field('tipo', requires=IS_IN_SET(['Global', 'Externa'], 
+    	Field('tipo', requires=IS_IN_SET(['Todas', 'Remotas'], 
     	error_message=T("não pode ser nulo"))),
     	formstyle="divs",
+    	submit_button='Pesquisar'
     		)
 
 	if form.process().accepted:
 		data = form.vars.data
 		data2 = ""+data+"%"
 		session.data=data2
-		if form.vars.tipo == 'Global':
+		if form.vars.tipo == 'Todas':
 			redirect(URL("initial", "/ligacoes"))
-		elif form.vars.tipo == 'Externa':
+		elif form.vars.tipo == 'Remotas':
 			redirect(URL("initial", "/consultas"))
+	elif form.errors:
+		response.flash="algo está errado"
+
 	
 	return response.render("initial/principal.html", form=form)
 
@@ -31,7 +36,7 @@ def ligacoes():
 	db.log_portabilidade.id.readable=False
 	grid = SQLFORM.grid(query=query,
 		user_signature=True, searchable=True, csv=False, 
-		paginate=50, details=False)
+		paginate=50, details=False, orderby=~db.log_portabilidade.data_port)
 	
 	return response.render("initial/show_grid.html", grid=grid)
 
@@ -66,6 +71,8 @@ def get_json():
 	return response.json(final)
 
 def blacklist():
+	db.port_blacklist.id.readable=False
+
 	grid = SQLFORM.grid(Blacklist,
 		user_signature=False, searchable=True, create=True, csv=False, 
 		paginate=50, details=False)
