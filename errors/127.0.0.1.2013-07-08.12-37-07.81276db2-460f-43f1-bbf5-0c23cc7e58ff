@@ -1,0 +1,427 @@
+(dp1
+S'output'
+p2
+S'<type \'exceptions.RuntimeError\'> Failure to connect, tried 5 times:\nTraceback (most recent call last):\n  File "/home/fernado/web2py/tronco/gluon/dal.py", line 7413, in __init__\n    self._adapter = ADAPTERS[self._dbname](**kwargs)\n  File "/home/fernado/web2py/tronco/gluon/dal.py", line 2512, in __init__\n    if do_connect: self.reconnect()\n  File "/home/fernado/web2py/tronco/gluon/dal.py", line 624, in reconnect\n    self.connection = f()\n  File "/home/fernado/web2py/tronco/gluon/dal.py", line 2510, in connector\n    return self.driver.connect(**driver_args)\n  File "/usr/lib/python2.7/dist-packages/MySQLdb/__init__.py", line 81, in Connect\n    return Connection(*args, **kwargs)\n  File "/usr/lib/python2.7/dist-packages/MySQLdb/connections.py", line 187, in __init__\n    super(Connection, self).__init__(*args, **kwargs2)\nOperationalError: (1045, "Access denied for user \'root\'@\'localhost\' (using password: YES)")\n'
+p3
+sS'layer'
+p4
+S'/home/fernado/web2py/tronco/applications/portabilidade/models/config.py'
+p5
+sS'code'
+p6
+S'from gluon.storage import Storage\n\nconfig = Storage(\n        db=Storage(),\n        auth=Storage(),\n        mail=Storage()\n        )\n\nconfig.db.uri = "mysql://root:senha@localhost/admanager"\n#config.db.uri = "postgres:pg8000://postgres:123456@127.0.0.1/agenda"\n#config.db.uri = "sqlite://hosts.sqlite"\nconfig.db.pool_size = 10\nconfig.db.check_reserved = [\'all\']\nconfig.migrate_enable=True\n#config.migrate=False\n\ndb = DAL(**config.db)\n\n# logging\nimport logging\nlogger = logging.getLogger("web2py.app.blog")\nlogger.setLevel(logging.DEBUG)\n\n#auth Rbac\nfrom gluon.tools import Auth\n\nauth = Auth(db, controller="initial", function="user")\n\n#settings\nauth.settings.remember_me_form = False\nauth.settings.formstyle = "divs"\nauth.settings.login_next = URL(\'initial\', \'principal\')\nauth.settings.logout_next = URL(\'user\', \'login?_next=\')\nauth.settings.registration_requires_verification = False\nauth.settings.registration_requires_approval = False\n#auth.settings.formstyle = "divs"\n#auth.settings.actions_disabled = [\'register\']\n\nauth.messages.logged_in = \'Bem Vindo\' \nauth.messages.logged_out = \'At\xc3\xa9 logo\'\nauth.messages.access_denied = \'Acesso negado! Contate o administrador\'\nauth.messages.invalid_email = \'email Inv\xc3\xa1lido\'\nauth.messages.invalid_login = \'Login Inv\xc3\xa1lido\'\n\n#mail\nmail = auth.settings.mailer\nmail.settings.server = "mail.ad2.com.br:587"\nmail.settings.sender = "smtp_avisos@ad2.com.br"\nmail.settings.login = "smtp_avisos@ad2.com.br:senha"\n\n\n#signals\ndef notifica(form):\n\tlogger.info("notifica")\n\tmail.send(\n\t\tto="fndiaz02@gmail.com",\n\t\tsubject="Usuario %(first_name)s pendente" % form.vars,\n\t\tmessage="<html>Voce tem um novo usuario para aprovacao %(first_name)s %(last_name)s </html>" % form.vars\n\t)\n\n#auth.settings.register_onaccept = notifica\n#auth.settings.register_onaccept = funcao\n\n#messages\nauth.messages.login_button = "Entrar"\n\n#fields\n#auth.settings.extra_fields[\'auth_user\'] = [\n#\tField("bio", "text"),\n#\tField("photo", "upload"),\n#\tField("gender", requires=IS_IN_SET(["masculino","feminino"]))\n#]\n\n#janrain\n#from gluon.contrib.login_methods.rpx_account import use_janrain\n#use_janrain(auth, filename="private/janrain.key")\n\nauth.define_tables(username=False)\n\n#genericas views\nif request.is_local:\n\tresponse.generic_patterns = [\'*\']\n\nimport datetime\n#response\nresponse.title= "titulo response"\nresponse.meta.keywords= "chave, outra, e outra"\n\nif not \'data\' in session:\n    session.data = \'\'\n\nif not \'func\' in session:\n    session.func = \'\'\n\nif not \'mes\' in session:\n    session.mes = \'0\'\n\nif not \'form_mes\' in session:\n    session.form_mes = [\'01\', \'02\', \'03\', \'04\', \n    \'05\', \'06\', \'07\', \'08\', \'09\', \'10\', \'11\', \'12\']\n\nif not \'form_ano\' in session:\n    now = datetime.datetime.now()\n    ano = now.year\n    lista=[]\n    for i in range(12):\n        lista.append(ano)\n        ano = ano - 1\n    session.form_ano = lista\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__hash__'
+p12
+S"<method-wrapper '__hash__' of exceptions.RuntimeError object>"
+p13
+sS'__setattr__'
+p14
+S"<method-wrapper '__setattr__' of exceptions.RuntimeError object>"
+p15
+sS'__reduce_ex__'
+p16
+S'<built-in method __reduce_ex__ of exceptions.RuntimeError object>'
+p17
+sS'__getslice__'
+p18
+S"<method-wrapper '__getslice__' of exceptions.RuntimeError object>"
+p19
+sS'__getitem__'
+p20
+S"<method-wrapper '__getitem__' of exceptions.RuntimeError object>"
+p21
+sS'__setstate__'
+p22
+S'<built-in method __setstate__ of exceptions.RuntimeError object>'
+p23
+sS'args'
+p24
+S'(\'Failure to connect, tried 5 times:\\nTraceback (mo... user \\\'root\\\'@\\\'localhost\\\' (using password: YES)")\\n\',)'
+p25
+sS'__reduce__'
+p26
+S'<built-in method __reduce__ of exceptions.RuntimeError object>'
+p27
+sS'__str__'
+p28
+S"<method-wrapper '__str__' of exceptions.RuntimeError object>"
+p29
+sS'__format__'
+p30
+S'<built-in method __format__ of exceptions.RuntimeError object>'
+p31
+sS'__getattribute__'
+p32
+S"<method-wrapper '__getattribute__' of exceptions.RuntimeError object>"
+p33
+sS'__class__'
+p34
+S"<type 'exceptions.RuntimeError'>"
+p35
+sS'__unicode__'
+p36
+S'<built-in method __unicode__ of exceptions.RuntimeError object>'
+p37
+sS'__delattr__'
+p38
+S"<method-wrapper '__delattr__' of exceptions.RuntimeError object>"
+p39
+sS'__subclasshook__'
+p40
+S'<built-in method __subclasshook__ of type object>'
+p41
+sS'__repr__'
+p42
+S"<method-wrapper '__repr__' of exceptions.RuntimeError object>"
+p43
+sS'__dict__'
+p44
+S'{}'
+p45
+sS'__sizeof__'
+p46
+S'<built-in method __sizeof__ of exceptions.RuntimeError object>'
+p47
+sS'__doc__'
+p48
+S"'Unspecified run-time error.'"
+p49
+sS'__init__'
+p50
+S"<method-wrapper '__init__' of exceptions.RuntimeError object>"
+p51
+sS'__new__'
+p52
+S'<built-in method __new__ of type object>'
+p53
+ssS'evalue'
+p54
+S'Failure to connect, tried 5 times:\nTraceback (most recent call last):\n  File "/home/fernado/web2py/tronco/gluon/dal.py", line 7413, in __init__\n    self._adapter = ADAPTERS[self._dbname](**kwargs)\n  File "/home/fernado/web2py/tronco/gluon/dal.py", line 2512, in __init__\n    if do_connect: self.reconnect()\n  File "/home/fernado/web2py/tronco/gluon/dal.py", line 624, in reconnect\n    self.connection = f()\n  File "/home/fernado/web2py/tronco/gluon/dal.py", line 2510, in connector\n    return self.driver.connect(**driver_args)\n  File "/usr/lib/python2.7/dist-packages/MySQLdb/__init__.py", line 81, in Connect\n    return Connection(*args, **kwargs)\n  File "/usr/lib/python2.7/dist-packages/MySQLdb/connections.py", line 187, in __init__\n    super(Connection, self).__init__(*args, **kwargs2)\nOperationalError: (1045, "Access denied for user \'root\'@\'localhost\' (using password: YES)")\n'
+p55
+sS'request'
+p56
+cgluon.html
+XML_unpickle
+p57
+(S's\x11C\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top">ajax</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">application</td><td valign="top">:</td><td><div>portabilidade</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">args</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">body</td><td valign="top">:</td><td><div>&lt;cStringIO.StringO object at 0x2818810&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">cid</td><td valign="top">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">client</td><td valign="top">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">controller</td><td valign="top">:</td><td><div>initial</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">cookies</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">env</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">app_folders</td><td valign="top">:</td><td><div>set([&#x27;/home/fernado/web2py/tronco/applications/portabilidade/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">applications_parent</td><td valign="top">:</td><td><div>/home/fernado/web2py/tronco</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">cmd_args</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">cmd_options</td><td valign="top">:</td><td><div>&lt;Values at 0x2809950: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;with_scheduler&#x27;: False, &#x27;ips&#x27;: [], &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;port&#x27;: 8000, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;fernando-workstation&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;/home/fernado/web2py/tronco&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;winservice&#x27;: &#x27;&#x27;, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;profiler_filename&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;scheduler_groups&#x27;: None, &#x27;password&#x27;: &#x27;123456&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;interfaces&#x27;: None, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">db_sessions</td><td valign="top">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">debugging</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">gluon_parent</td><td valign="top">:</td><td><div>/home/fernado/web2py/tronco</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_accept</td><td valign="top">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_accept_charset</td><td valign="top">:</td><td><div>ISO-8859-1,utf-8;q=0.7,*;q=0.3</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_accept_encoding</td><td valign="top">:</td><td><div>gzip,deflate,sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_accept_language</td><td valign="top">:</td><td><div>pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_connection</td><td valign="top">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_host</td><td valign="top">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">http_user_agent</td><td valign="top">:</td><td><div>Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.4 (KHTML, like Gecko) Ubuntu/12.10 Chromium/22.0.1229.94 Chrome/22.0.1229.94 Safari/537.4</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">is_jython</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">is_pypy</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">path_info</td><td valign="top">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">query_string</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">remote_addr</td><td valign="top">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">remote_port</td><td valign="top">:</td><td><div>46098</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">request_method</td><td valign="top">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">request_uri</td><td valign="top">:</td><td><div>/portabilidade/initial/principal</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">script_name</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">server_name</td><td valign="top">:</td><td><div>fernando-workstation</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">server_port</td><td valign="top">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">server_protocol</td><td valign="top">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">server_software</td><td valign="top">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">web2py_original_uri</td><td valign="top">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">web2py_path</td><td valign="top">:</td><td><div>/home/fernado/web2py/tronco</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">web2py_version</td><td valign="top">:</td><td><div>2.5.1-stable+timestamp.2013.06.06.15.39.19</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi_errors</td><td valign="top">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x7f7ff444d270&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi_file_wrapper</td><td valign="top">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x27784c8&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi_input</td><td valign="top">:</td><td><div>&lt;socket._fileobject object at 0x25da550&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi_multiprocess</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi_multithread</td><td valign="top">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi_run_once</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi_url_scheme</td><td valign="top">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi_version</td><td valign="top">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">extension</td><td valign="top">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">folder</td><td valign="top">:</td><td><div>/home/fernado/web2py/tronco/applications/portabilidade/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">function</td><td valign="top">:</td><td><div>principal</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">get_vars</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">global_settings</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">app_folders</td><td valign="top">:</td><td><div>set([&#x27;/home/fernado/web2py/tronco/applications/portabilidade/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">applications_parent</td><td valign="top">:</td><td><div>/home/fernado/web2py/tronco</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">cmd_args</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">cmd_options</td><td valign="top">:</td><td><div>&lt;Values at 0x2809950: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;with_scheduler&#x27;: False, &#x27;ips&#x27;: [], &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;port&#x27;: 8000, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;fernando-workstation&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;/home/fernado/web2py/tronco&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;winservice&#x27;: &#x27;&#x27;, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;profiler_filename&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;scheduler_groups&#x27;: None, &#x27;password&#x27;: &#x27;123456&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;interfaces&#x27;: None, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">db_sessions</td><td valign="top">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">debugging</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">gluon_parent</td><td valign="top">:</td><td><div>/home/fernado/web2py/tronco</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">is_jython</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">is_pypy</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">local_hosts</td><td valign="top">:</td><td><div><table><tr><td><div>::1</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>127.0.0.1</div></td></tr><tr><td><div>fernando-workstation</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">web2py_version</td><td valign="top">:</td><td><div>2.5.1-stable+timestamp.2013.06.06.15.39.19</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">is_https</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">is_local</td><td valign="top">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">is_restful</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">now</td><td valign="top">:</td><td><div>datetime.datetime(2013, 7, 8, 12, 37, 7, 857063)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">post_vars</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">url</td><td valign="top">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">utcnow</td><td valign="top">:</td><td><div>datetime.datetime(2013, 7, 8, 15, 37, 7, 857116)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">uuid</td><td valign="top">:</td><td><div>portabilidade/127.0.0.1.2013-07-08.12-37-07.81276db2-460f-43f1-bbf5-0c23cc7e58ff</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">vars</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">environ</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">HTTP_ACCEPT</td><td valign="top">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_ACCEPT_CHARSET</td><td valign="top">:</td><td><div>ISO-8859-1,utf-8;q=0.7,*;q=0.3</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_ACCEPT_ENCODING</td><td valign="top">:</td><td><div>gzip,deflate,sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_ACCEPT_LANGUAGE</td><td valign="top">:</td><td><div>pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_CONNECTION</td><td valign="top">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_HOST</td><td valign="top">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">HTTP_USER_AGENT</td><td valign="top">:</td><td><div>Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.4 (KHTML, like Gecko) Ubuntu/12.10 Chromium/22.0.1229.94 Chrome/22.0.1229.94 Safari/537.4</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">PATH_INFO</td><td valign="top">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">QUERY_STRING</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">REMOTE_ADDR</td><td valign="top">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">REMOTE_PORT</td><td valign="top">:</td><td><div>46098</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">REQUEST_METHOD</td><td valign="top">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">REQUEST_URI</td><td valign="top">:</td><td><div>/portabilidade/initial/principal</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">SCRIPT_NAME</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">SERVER_NAME</td><td valign="top">:</td><td><div>fernando-workstation</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">SERVER_PORT</td><td valign="top">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">SERVER_PROTOCOL</td><td valign="top">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">SERVER_SOFTWARE</td><td valign="top">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">WEB2PY_ORIGINAL_URI</td><td valign="top">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi.errors</td><td valign="top">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x7f7ff444d270&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi.file_wrapper</td><td valign="top">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x27784c8&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi.input</td><td valign="top">:</td><td><div>&lt;cStringIO.StringO object at 0x2818810&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi.multiprocess</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi.multithread</td><td valign="top">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi.run_once</td><td valign="top">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi.url_scheme</td><td valign="top">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">wsgi.version</td><td valign="top">:</td><td><div>1</div></td></tr></table></div></td></tr></table></div></td></tr></table></div>'
+tRp58
+sS'frames'
+p59
+(lp60
+(dp61
+S'file'
+p62
+S'/home/fernado/web2py/tronco/gluon/restricted.py'
+p63
+sS'dump'
+p64
+(dp65
+S'environment'
+p66
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, 'CENTER': <class 'gluon.html.CENTER'>, 'CLEANUP': <class 'gluon.validators.CLEANUP'>, ...}"
+p67
+sS'ccode'
+p68
+S'<code object <module> at 0x2801b30, file "/home/...ications/portabilidade/models/config.py", line 1>'
+p69
+ssS'lnum'
+p70
+I212
+sS'lines'
+p71
+(dp72
+I207
+S'    try:'
+p73
+sI208
+S'        if isinstance(code, types.CodeType):'
+p74
+sI209
+S'            ccode = code'
+p75
+sI210
+S'        else:'
+p76
+sI211
+S'            ccode = compile2(code, layer)'
+p77
+sI212
+S'        exec ccode in environment'
+p78
+sI213
+S'    except HTTP:'
+p79
+sI214
+S'        raise'
+p80
+sI215
+S'    except RestrictedError:'
+p81
+sI216
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p82
+ssS'call'
+p83
+S"(code='from gluon.storage import Storage\\n\\nconfig = Stor...      ano = ano - 1\\n    session.form_ano = lista\\n', environment={'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, 'CENTER': <class 'gluon.html.CENTER'>, 'CLEANUP': <class 'gluon.validators.CLEANUP'>, ...}, layer='/home/fernado/web2py/tronco/applications/portabilidade/models/config.py')"
+p84
+sS'func'
+p85
+S'restricted'
+p86
+sa(dp87
+g62
+S'/home/fernado/web2py/tronco/applications/portabilidade/models/config.py'
+p88
+sg64
+(dp89
+S'DAL'
+p90
+S"<class 'gluon.dal.DAL'>"
+p91
+sS'config'
+p92
+S"<Storage {'mail': <Storage {}>, 'db': <Storage {...>, 'auth': <Storage {}>, 'migrate_enable': True}>"
+p93
+sS'db'
+p94
+S'undefined'
+p95
+sS'config.db'
+p96
+S"<Storage {'check_reserved': ['all'], 'uri': 'mys...oot:senha@localhost/admanager', 'pool_size': 10}>"
+p97
+ssg70
+I17
+sg71
+(dp98
+I12
+S'config.db.pool_size = 10'
+p99
+sI13
+S"config.db.check_reserved = ['all']"
+p100
+sI14
+S'config.migrate_enable=True'
+p101
+sI15
+S'#config.migrate=False'
+p102
+sI16
+S''
+sI17
+S'db = DAL(**config.db)'
+p103
+sI18
+S''
+sI19
+S'# logging'
+p104
+sI20
+S'import logging'
+p105
+sI21
+S'logger = logging.getLogger("web2py.app.blog")'
+p106
+ssg83
+S'()'
+p107
+sg85
+S'<module>'
+p108
+sa(dp109
+g62
+S'/home/fernado/web2py/tronco/gluon/dal.py'
+p110
+sg64
+(dp111
+S'tb'
+p112
+S'\'Traceback (most recent call last):\\n  File "/home... user \\\'root\\\'@\\\'localhost\\\' (using password: YES)")\\n\''
+p113
+sS'attempts'
+p114
+S'5'
+sS'builtinRuntimeError'
+p115
+S"<type 'exceptions.RuntimeError'>"
+p116
+ssg70
+I7433
+sg71
+(dp117
+I7428
+S'                if connected:'
+p118
+sI7429
+S'                    break'
+p119
+sI7430
+S'                else:'
+p120
+sI7431
+S'                    time.sleep(1)'
+p121
+sI7432
+S'            if not connected:'
+p122
+sI7433
+S'                raise RuntimeError("Failure to connect, tried %d times:\\n%s" % (attempts, tb))'
+p123
+sI7434
+S'        else:'
+p124
+sI7435
+S'            self._adapter = BaseAdapter(db=self,pool_size=0,'
+p125
+sI7436
+S"                                        uri='None',folder=folder,"
+p126
+sI7437
+S'                                        db_codec=db_codec, after_connection=after_connection)'
+p127
+ssg83
+S'(self=<DAL uri="mysql:******@localhost/admanager">, uri=\'mysql://root:senha@localhost/admanager\', pool_size=10, folder=None, db_codec=\'UTF-8\', check_reserved=[\'all\'], migrate=True, fake_migrate=False, migrate_enabled=True, fake_migrate_all=False, decode_credentials=False, driver_args=None, adapter_args=None, attempts=5, auto_import=False, bigint_id=False, debug=False, lazy_tables=False, db_uid=None, do_connect=True, after_connection=None)'
+p128
+sg85
+g50
+sasS'pyver'
+p129
+S'Python 2.7.3: /usr/bin/python (prefix: /usr)'
+p130
+sS'session'
+p131
+g57
+(S's\x1a\x00\x00\x00<div><table></table></div>'
+tRp132
+sS'etype'
+p133
+S"<type 'exceptions.RuntimeError'>"
+p134
+sS'date'
+p135
+S'Mon Jul  8 12:37:13 2013'
+p136
+sS'response'
+p137
+g57
+(S'sG\x10\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top">body</td><td valign="top">:</td><td><div>&lt;cStringIO.StringO object at 0x28185e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">cookies</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">session_id_portabilidade</td><td valign="top">:</td><td><div>127.0.0.1-80108038-a746-4f5f-8676-da3fe5554461<table><tr><td style="font-weight:bold;vertical-align:top">comment</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">domain</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">expires</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">httponly</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">max-age</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">path</td><td valign="top">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">secure</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">version</td><td valign="top">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">delimiters</td><td valign="top">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">files</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">flash</td><td valign="top">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">generic_patterns</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">headers</td><td valign="top">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top">X-Powered-By</td><td valign="top">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">menu</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">meta</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">models_to_run</td><td valign="top">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^initial/\\w+\\.py$</div></td></tr><tr><td><div>^initial/principal/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">postprocessing</td><td valign="top">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_cookie_expires</td><td valign="top">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_data_name</td><td valign="top">:</td><td><div>session_data_portabilidade</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_filename</td><td valign="top">:</td><td><div>/home/fernado/web2py/tronco/applications/portabilidade/sessions/127.0.0.1-80108038-a746-4f5f-8676-da3fe5554461</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_id</td><td valign="top">:</td><td><div>127.0.0.1-80108038-a746-4f5f-8676-da3fe5554461</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_id_name</td><td valign="top">:</td><td><div>session_id_portabilidade</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_new</td><td valign="top">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">session_storage_type</td><td valign="top">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">status</td><td valign="top">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top">view</td><td valign="top">:</td><td><div>initial/principal.html</div></td></tr></table></div>'
+tRp138
+sS'locals'
+p139
+(dp140
+S'migrate'
+p141
+S'True'
+p142
+sS'do_connect'
+p143
+g142
+sS'decode_credentials'
+p144
+S'False'
+p145
+sS'attempts'
+p146
+S'5'
+sS'driver_args'
+p147
+S'None'
+p148
+sS'self'
+p149
+S'<DAL uri="mysql:******@localhost/admanager">'
+p150
+sS'auto_import'
+p151
+g145
+sS'migrate_enabled'
+p152
+g142
+sS'check_reserved'
+p153
+S"['all']"
+p154
+sS'bigint_id'
+p155
+g145
+sS'kwargs'
+p156
+S'{\'adapter_args\': {}, \'after_connection\': None, \'credential_decoder\': <function <lambda>>, \'db\': <DAL uri="mysql:******@localhost/admanager">, \'db_codec\': \'UTF-8\', \'do_connect\': True, \'driver_args\': {\'charset\': \'utf8\', \'db\': \'admanager\', \'host\': \'localhost\', \'passwd\': \'senha\', \'port\': 3306, \'user\': \'root\'}, \'folder\': None, \'pool_size\': 10, \'uri\': \'mysql://root:senha@localhost/admanager\'}'
+p157
+sS'folder'
+p158
+S'None'
+p159
+sS'tb'
+p160
+S'\'Traceback (most recent call last):\\n  File "/home... user \\\'root\\\'@\\\'localhost\\\' (using password: YES)")\\n\''
+p161
+sS'uris'
+p162
+S"['mysql://root:senha@localhost/admanager']"
+p163
+sS'lazy_tables'
+p164
+g145
+sS'db_codec'
+p165
+S"'UTF-8'"
+p166
+sS'adapter_args'
+p167
+S'None'
+p168
+sS'fake_migrate'
+p169
+g145
+sS'connected'
+p170
+g145
+sS'credential_decoder'
+p171
+S'<function <lambda>>'
+p172
+sS'after_connection'
+p173
+S'None'
+p174
+sS'fake_migrate_all'
+p175
+g145
+sS'db_uid'
+p176
+S'None'
+p177
+sS'items'
+p178
+S'None'
+p179
+sS'k'
+S'4'
+sS'uri'
+p180
+S"'mysql://root:senha@localhost/admanager'"
+p181
+sS'pool_size'
+p182
+S'10'
+p183
+sS'error'
+p184
+S"''"
+p185
+sS'debug'
+p186
+g145
+sssS'traceback'
+p187
+S'Traceback (most recent call last):\n  File "/home/fernado/web2py/tronco/gluon/restricted.py", line 212, in restricted\n    exec ccode in environment\n  File "/home/fernado/web2py/tronco/applications/portabilidade/models/config.py", line 17, in <module>\n    db = DAL(**config.db)\n  File "/home/fernado/web2py/tronco/gluon/dal.py", line 7433, in __init__\n    raise RuntimeError("Failure to connect, tried %d times:\\n%s" % (attempts, tb))\nRuntimeError: Failure to connect, tried 5 times:\nTraceback (most recent call last):\n  File "/home/fernado/web2py/tronco/gluon/dal.py", line 7413, in __init__\n    self._adapter = ADAPTERS[self._dbname](**kwargs)\n  File "/home/fernado/web2py/tronco/gluon/dal.py", line 2512, in __init__\n    if do_connect: self.reconnect()\n  File "/home/fernado/web2py/tronco/gluon/dal.py", line 624, in reconnect\n    self.connection = f()\n  File "/home/fernado/web2py/tronco/gluon/dal.py", line 2510, in connector\n    return self.driver.connect(**driver_args)\n  File "/usr/lib/python2.7/dist-packages/MySQLdb/__init__.py", line 81, in Connect\n    return Connection(*args, **kwargs)\n  File "/usr/lib/python2.7/dist-packages/MySQLdb/connections.py", line 187, in __init__\n    super(Connection, self).__init__(*args, **kwargs2)\nOperationalError: (1045, "Access denied for user \'root\'@\'localhost\' (using password: YES)")\n\n'
+p188
+s.
