@@ -86,8 +86,11 @@ import datetime
 response.title= "titulo response"
 response.meta.keywords= "chave, outra, e outra"
 
-if not 'data' in session:
-    session.data = ''
+if not 'data_inicio' in session:
+    session.data_inicio = ''
+
+if not 'data_fim' in session:
+    session.data_fim = ''
 
 if not 'func' in session:
     session.func = ''

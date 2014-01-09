@@ -5,22 +5,27 @@ def principal():
 	response.title = 'busca inteligente'
 
 	form = SQLFORM.factory(
-    	Field("data", "date", 
+    	Field("data_inicio", "datetime", 
     	requires=IS_NOT_EMPTY(
     	error_message=T("não pode ser nulo"))),
-    	Field('tipo', requires=IS_IN_SET(['Todas', 'Remotas'], 
+    	Field("data_fim", "datetime", 
+    	requires=IS_NOT_EMPTY(
+    	error_message=T("não pode ser nulo"))),
+    	Field('tipo', requires=IS_IN_SET(['Ligacoes', 'Consultas'], 
     	error_message=T("não pode ser nulo"))),
     	formstyle="divs",
     	submit_button='Pesquisar'
     		)
 
 	if form.process().accepted:
-		data = form.vars.data
-		data2 = ""+data+"%"
-		session.data=data2
-		if form.vars.tipo == 'Todas':
+		data_inicio = form.vars.data_inicio
+		data_fim = form.vars.data_fim
+		#data2 = ""+data+"%"
+		session.data_inicio=data_inicio
+		session.data_fim=data_fim
+		if form.vars.tipo == 'Ligacoes':
 			redirect(URL("initial", "/ligacoes"))
-		elif form.vars.tipo == 'Remotas':
+		elif form.vars.tipo == 'Consultas':
 			redirect(URL("initial", "/consultas"))
 	elif form.errors:
 		response.flash="algo está errado"
@@ -31,7 +36,9 @@ def principal():
 def ligacoes():
 	response.title = 'ligacoes'
 	session.func = 'ligacoes'
-	query = (db.log_portabilidade.data_port.like(session.data))
+	#query = (db.log_portabilidade.data_port.like(session.data))
+	query =	(db.log_portabilidade.data_port >= session.data_inicio) &\
+			(db.log_portabilidade.data_port <= session.data_fim)
 
 	db.log_portabilidade.id.readable=False
 	grid = SQLFORM.grid(query=query,
@@ -43,28 +50,51 @@ def ligacoes():
 def consultas():
 	response.title = 'consultas'
 	session.func = 'consultas'
-	query = (db.portabilidade.data_port.like(session.data))
+	#query = (db.portabilidade.data_port.like(session.data))
+	query =	(db.portabilidade.data_port >= session.data_inicio) &\
+			(db.portabilidade.data_port <= session.data_fim)
+	print query
 
 	db.portabilidade.id.readable=False
 	grid = SQLFORM.grid(query=query,
 		user_signature=True, searchable=True, csv=False, 
-		paginate=50, details=False)
+		paginate=50, details=False, orderby=~db.portabilidade.data_port)
 	
 	return response.render("initial/show_grid.html", grid=grid)
 
 def get_json():
-	data= "'"+ session.data +"'"
+	#data= "'"+ session.data +"'"
+	print 'json'
 
 	if session.func == 'ligacoes':
-		consulta =db.executesql("SELECT o.nome_ope, p.operadora, COUNT( * ) FROM log_portabilidade p INNER JOIN portabilidade_operadora o ON o.id = p.operadora WHERE p.data_port LIKE %s GROUP BY o.nome_ope" %(data))
+		#consulta =db.executesql("SELECT o.nome_ope, p.operadora, COUNT( * ) FROM log_portabilidade p INNER JOIN portabilidade_operadora o ON o.id = p.operadora WHERE p.data_port LIKE %s GROUP BY o.nome_ope" %(data))
+		query	= 	(db.log_portabilidade.data_port >= session.data_inicio) &\
+					(db.log_portabilidade.data_port <= session.data_fim) &\
+					(db.portabilidade_operadora.id == db.log_portabilidade.operadora)
+		count 	=	db.portabilidade_operadora.nome_ope.count()
+		con 	=	db(query).select(db.log_portabilidade.operadora, \
+						db.portabilidade_operadora.nome_ope, count, \
+						groupby=db.portabilidade_operadora.nome_ope)
+		#print con
+		#for dado in con:
+		#	print dado.portabilidade_operadora.nome_ope
+		#	print dado._extra[count]
 	elif session.func == 'consultas':
-		consulta =db.executesql("SELECT nome_operadora, cod_operadora, COUNT( * ) FROM portabilidade WHERE data_port LIKE %s GROUP BY nome_operadora" %(data))
+		#consulta =db.executesql("SELECT nome_operadora, cod_operadora, COUNT( * ) FROM portabilidade WHERE data_port LIKE %s GROUP BY nome_operadora" %(data))
+		query 	= 	(db.portabilidade.data_port >= session.data_inicio) &\
+					(db.portabilidade.data_port <= session.data_fim)
+		count 	= 	db.portabilidade.nome_operadora.count()
+		con 	= 	db(query).select(db.portabilidade.nome_operadora, count,\
+						groupby=db.portabilidade.nome_operadora)
 
 	colunas = [{"label":"Operadora","type":"string"},
 			{"label":"Quantidade","type":"number"}]
 	linhas=[]
-	for row in consulta:
-		linhas.append({"c":[{"v":row[0]},{"v":row[2]}]})
+	for dado in con:
+		if session.func == 'ligacoes':
+			linhas.append({"c":[{"v":dado.portabilidade_operadora.nome_ope},{"v":dado._extra[count]}]})
+		elif session.func == 'consultas':
+			linhas.append({"c":[{"v":dado.portabilidade.nome_operadora},{"v":dado._extra[count]}]})
 
 	final ={"rows" : linhas, "cols" : colunas}
 
